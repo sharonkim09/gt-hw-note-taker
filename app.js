@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // functionalities
+// View Routes -> HTML
 // GET ROUTE
 app.get("/",(req,res)=>{
     res.sendFile(path.join(__dirname,"./public/index.html"))
@@ -22,6 +23,19 @@ app.get("/",(req,res)=>{
 
 app.get("/notes",(req,res)=>{
     res.sendFile(path.join(__dirname, "/public/notes.html"))
+})
+
+// API Routes -> JSON
+app.get("/api/db",(req,res)=>{
+    fs.readFile("./db/db.json","utf8",(err,data)=>{
+        if(err){
+            return res.send("Error occurred")
+        }
+        else{
+            const arrayOfNotes= JSON.parse(data);
+            res.json(arrayOfNotes);
+        }
+    })
 })
 // POST ROUTE
 // DELETE ROUTE
